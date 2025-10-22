@@ -1,0 +1,72 @@
+Windows Registry Editor Version 5.00
+
+; Hide "Meet Now" icon from the taskbar
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"HideSCAMeetNow"=dword:00000001
+"NoStartMenuMFUprogramsList"=dword:00000001
+"NoWelcomeScreen"=dword:00000001
+
+; Turn off Windows Security Notification Icon
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
+"SecurityHealth"=-
+
+; Disable First Logon Animation
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"EnableFirstLogonAnimation"=dword:00000000
+
+; Disable Feedback Notifications
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection]
+"DoNotShowFeedbackNotifications"=dword:00000001
+
+; Disable Web Search
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search]
+"DisableWebSearch"=dword:00000001
+"EnableDynamicContentInWSB"=dword:00000000
+
+; Hide Recently used and most used apps
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer]
+"HideRecentlyAddedApps"=dword:00000001
+"HideRecommendedSection"=dword:00000001
+"AllowOnlineTips"=dword:00000000
+
+; Disable News and Interests
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dsh]
+"AllowNewsAndInterests"=dword:00000000
+
+; Disable Windows Feeds
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds]
+"EnableFeeds"=dword:00000000
+
+; Disable Lock Screen Overlays
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization]
+"LockScreenOverlaysDisabled"=dword:00000001
+
+; Disable Featured Software in Windows Update
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU]
+"EnableFeaturedSoftware"=dword:00000000
+
+; Microsoft Edge Policies
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge]
+"BackgroundModeEnabled"=dword:00000000
+"HideFirstRunExperience"=dword:00000001
+"ShowRecommendationsEnabled"=dword:00000000
+"StartupBoostEnabled"=dword:00000000
+"WebWidgetAllowed"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main]
+"PreventFirstRunPage"=dword:00000001
+"AllowPrelaunch"=dword:00000000
+
+; Configure Start Menu Pins
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\current\device\Start]
+"ConfigureStartPins"="{ \"pinnedList\": [] }"
+"ConfigureStartPins_ProviderSet"=dword:00000001
+"ConfigureStartPins_WinningProvider"="B5292708-1619-419B-9923-E5D9F3925E71"
+"HideRecommendedSection"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\current\device\Education]
+"IsEducationEnvironment"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\providers\B5292708-1619-419B-9923-E5D9F3925E71\default\Device\Start]
+"ConfigureStartPins"="{ \"pinnedList\": [] }"
+"ConfigureStartPins_LastWrite"=dword:00000001

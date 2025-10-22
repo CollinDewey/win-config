@@ -1,0 +1,125 @@
+Windows Registry Editor Version 5.00
+
+; Show hidden file extensions
+; Disable task view button
+; Align taskbar left (for 11)
+; Task view
+; Recommended files
+; No Search
+; Turn off "Recommendations for Tips, Shortcuts, New Apps"
+; Disable Chat icon
+; Compact Mode
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"HideFileExt"=dword:00000000
+"ShowCortanaButton"=dword:00000000
+"ShowTaskViewButton"=dword:00000000
+"Start_IrisRecommendations"=dword:00000000
+"Start_Layout"=dword:00000001
+"Start_TrackDocs"=dword:00000000
+"TaskbarAl"=dword:00000000
+"TaskbarDa"=dword:00000000
+"TaskbarMn"=dword:00000000
+"UseCompactMode"=dword:00000001
+
+[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer]
+"HideRecentlyAddedApps"=dword:00000001
+"HideRecommendedSection"=dword:00000001
+"HideTaskViewButton"=dword:00000001
+"DisableSearchBoxSuggestions"=dword:00000001
+
+; Disable OneDrive autostart
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run]
+"OneDrive"=hex:03,00,00,00,00,00,00,00,00,00,00,00
+
+; Disable Bing Search and Cortana
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search]
+"BingSearchEnabled"=dword:00000000
+"CortanaConsent"=dword:00000000
+"SearchboxTaskbarMode"=dword:00000000
+
+; Disable Internet Search in Start Menu
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoSearchInternetInStartMenu"=dword:00000001
+
+; Hide Weather Applet
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Feeds]
+"ShellFeedsTaskbarViewMode"=dword:00000002
+
+; Disable XBOX Game Bar
+[HKEY_CURRENT_USER\SYSTEM\GameConfigStore]
+"GameDVR_Enabled"=dword:00000000
+
+; Disable GameDVR and app capture
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\GameDVR]
+"AppCaptureEnabled"=dword:00000000
+
+; Turn off app suggestions, spotlight lock screen
+; Disable Sponsored Apps and Content Delivery
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
+"ContentDeliveryAllowed"=dword:00000000
+"FeatureManagementEnabled"=dword:00000000
+"OemPreInstalledAppsEnabled"=dword:00000000
+"PreInstalledAppsEnabled"=dword:00000000
+"PreInstalledAppsEverEnabled"=dword:00000000
+"RotatingLockScreenEnabled"=dword:00000000
+"RotatingLockScreenOverlayEnabled"=dword:00000000
+"SilentInstalledAppsEnabled"=dword:00000000
+"SoftLandingEnabled"=dword:00000000
+"SubscribedContent-310093Enabled"=dword:00000000
+"SubscribedContent-338388Enabled"=dword:00000000
+"SubscribedContent-338389Enabled"=dword:00000000
+"SubscribedContent-338393Enabled"=dword:00000000
+"SubscribedContent-353694Enabled"=dword:00000000
+"SubscribedContent-353696Enabled"=dword:00000000
+"SubscribedContentEnabled"=dword:00000000
+"SystemPaneSuggestionsEnabled"=dword:00000000
+
+; Remove Content Delivery Subscriptions
+[-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\Subscriptions]
+[-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps]
+
+; Turn off spotlight icon
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\DesktopSpotlight\Settings]
+"EnabledState"=dword:00000000
+
+; Configure Windows Spotlight
+[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CloudContent]
+"ConfigureWindowsSpotlight"=dword:00000002
+"DisableWindowsSpotlightFeatures"=dword:00000001
+
+; Disable Microsoft Edge Startup Boost
+[HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Edge\Recommended]
+"StartupBoostEnabled"=dword:00000000
+
+; Disable Windows Copilot
+[HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsCopilot]
+"TurnOffWindowsCopilot"=dword:00000001
+
+; Disable personalized ads
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo]
+"Enabled"=dword:00000000
+
+; Disable tailored experiences with diagnostic data
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Privacy]
+"TailoredExperiencesWithDiagnosticDataEnabled"=dword:00000000
+
+; Disable online speech
+[HKEY_CURRENT_USER\Software\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy]
+"HasAccepted"=dword:00000000
+
+; Disable input improvements
+[HKEY_CURRENT_USER\Software\Microsoft\Input\TIPC]
+"Enabled"=dword:00000000
+
+; Restrict input personalization data collection
+[HKEY_CURRENT_USER\Software\Microsoft\InputPersonalization]
+"RestrictImplicitInkCollection"=dword:00000001
+"RestrictImplicitTextCollection"=dword:00000001
+
+; Disable contact harvesting (whatever that means)
+[HKEY_CURRENT_USER\Software\Microsoft\InputPersonalization\TrainedDataStore]
+"HarvestContacts"=dword:00000000
+
+; Disable personalization privacy policy
+[HKEY_CURRENT_USER\Software\Microsoft\Personalization\Settings]
+"AcceptedPrivacyPolicy"=dword:00000000
