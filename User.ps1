@@ -4,10 +4,31 @@ $AppxRegKey = "UserSetupAppx"
 $WingetRegKey = "UserSetupWinget"
 $UseWinget = $true
 
-[System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
+function Show-Notification {
+    param(
+        [string]$Title,
+        [string]$Message
+    )
+    
+    $xml = @"
+    <toast>
+      <visual>
+        <binding template="ToastGeneric">
+            <text>$Title</text>
+            <text>$Message</text>
+        </binding>
+      </visual>
+    </toast>
+"@
+
+    $XmlDocument = [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime]::New()
+    $XmlDocument.loadXml($xml)
+
+    [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime]::CreateToastNotifier('Windows.SystemToast.DeviceEnrollmentActivity').Show($XmlDocument)
+}
 
 if (-not (Test-Path $RegPath)) {
-    [System.Windows.Forms.MessageBox]::Show("Doing some initial setup", "User Setup", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
+    Show-Notification -Title "User Setup" -Message "Doing first-time setup"
     New-Item -Path $RegPath -Force | Out-Null
 }
 
@@ -26,7 +47,6 @@ if ((Get-ItemProperty -Path $RegPath -Name $RegKey -ErrorAction SilentlyContinue
     powercfg /X monitor-timeout-ac 0
 
     # Unpin Start Menu Tiles (Windows 10)
-    Write-Host "Unpinning Start Menu Tiles"
     $key = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\*start.tilegrid`$windows.data.curatedtilecollection.tilecollection\Current" -ErrorAction SilentlyContinue
     if ($key) {
         $data = $key.Data[0..25] + ([byte[]](202,50,0,226,44,1,1,0,0))
@@ -34,7 +54,6 @@ if ((Get-ItemProperty -Path $RegPath -Name $RegKey -ErrorAction SilentlyContinue
     }
 
     # Unpin all apps from taskbar
-    Write-Host "Unpinning all taskbar items"
     (New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ForEach-Object{$_.Verbs() | Where-Object{$_.Name.replace('&','') -match 'Unpin from taskbar'} | ForEach-Object{$_.DoIt()}}
 
     # Bye OneDrive
@@ -52,7 +71,7 @@ if ((Get-ItemProperty -Path $RegPath -Name $RegKey -ErrorAction SilentlyContinue
 # Uninstall APPX Packages
 if ((Get-ItemProperty -Path $RegPath -Name $AppxRegKey -ErrorAction SilentlyContinue).$AppxRegKey -ne $true) {
     # Give Windows a moment to settle installing them
-    Start-Sleep -Seconds 60
+    Start-Sleep -Seconds 30
 
     $AppxPackagesToUninstall = @(
         ("AppUp.IntelManagementandSecurityStatus"),
@@ -111,15 +130,18 @@ if ((Get-ItemProperty -Path $RegPath -Name $AppxRegKey -ErrorAction SilentlyCont
     Get-AppxPackage | Where-Object { $_.Name -in $AppxPackagesToUninstall } | ForEach-Object { $_ | Remove-AppxPackage }
 
     Set-ItemProperty -Path $RegPath -Name $AppxRegKey -Value $true
+    
+    # Blindly assume this is last
+    Show-Notification -Title "User Setup" -Message "First-time setup complete, please relogin"
 }
 
 
-# Winget seemingly fails on 10 if installed as the SYSTEM user, I'll deal with that later I suppose
 if ($UseWinget -and (Get-ItemProperty -Path $RegPath -Name $WingetRegKey -ErrorAction SilentlyContinue).$WingetRegKey -ne $true) {
     $WingetPackagesToInstall = @(
         ("Microsoft.VisualStudioCode"),
         ("Microsoft.WindowsTerminal")
     )
+
     # Make sure winget is available (May take a moment for the task to finish)
     while (-Not (Get-Command winget -ErrorAction SilentlyContinue)) {
         Start-Sleep -Seconds 10
@@ -131,7 +153,4 @@ if ($UseWinget -and (Get-ItemProperty -Path $RegPath -Name $WingetRegKey -ErrorA
     }
 
     Set-ItemProperty -Path $RegPath -Name $WingetRegKey -Value $true
-
-    # Blindly assume this is last
-    [System.Windows.Forms.MessageBox]::Show("Relogin Required", "Setup Complete", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
 }
