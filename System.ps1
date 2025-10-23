@@ -91,6 +91,20 @@ while (-Not (Get-Command winget -ErrorAction SilentlyContinue)) {
     Start-Sleep -Seconds 10
 }
 
+# Fix permissions for authenticated users
+$WinGetFolderPath = Get-ChildItem -Path ([IO.Path]::Combine($env:ProgramFiles, 'WindowsApps')) -Filter "Microsoft.DesktopAppInstaller_*_*__8wekyb3d8bbwe" | Sort-Object Name | Select-Object -Last 1
+
+if ($null -ne $WinGetFolderPath) {
+    $WinGetFolderPath = $WinGetFolderPath.FullName
+
+    $authenticatedUsersSid = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11")
+    $authenticatedUsersGroup = $authenticatedUsersSid.Translate([System.Security.Principal.NTAccount])
+    $acl = Get-Acl $WinGetFolderPath
+    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($authenticatedUsersGroup, "ReadAndExecute", "ContainerInherit,ObjectInherit", "None", "Allow")
+    $acl.SetAccessRule($accessRule)
+    Set-Acl -Path $WinGetFolderPath -AclObject $acl
+}
+
 # Install packages
 foreach ($package in $WingetPackagesToInstall) {
     winget install --id $package --accept-package-agreements --accept-source-agreements --exact --silent
